@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Fakultas;
 
 
 class MahasiswaController extends Controller
@@ -16,8 +17,13 @@ class MahasiswaController extends Controller
      */
     public function index()
     {
-        $mahasiswas = mahasiswa::paginate(1);
-        return view("index", compact("mahasiswas"));
+        // $mahasiswas = mahasiswa::paginate(1);
+        // Inner Join
+        $mahasiswas = DB::table("mahasiswas")
+        ->join("fakultas", "mahasiswas.fakultas_id", "=", "fakultas.id")
+        ->select("mahasiswas.*", "fakultas.name as nama")
+        ->paginate();
+        return view("table", compact("mahasiswas"));
     }
 
     /**
@@ -27,7 +33,8 @@ class MahasiswaController extends Controller
      */
     public function create()
     {
-        return view("create");
+        $fakultas=Fakultas::get();
+        return view("create", compact("fakultas"));
     }
 
     /**
@@ -70,8 +77,9 @@ class MahasiswaController extends Controller
     public function edit($id)
     {
         $mahasiswa = Mahasiswa::findOrFail($id);
+        $fakultas = Fakultas::get();
 
-        return view("edit", compact("mahasiswa"));
+        return view("edit", compact("mahasiswa", "fakultas"));
     }
 
     /**

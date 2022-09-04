@@ -10,5 +10,10 @@ class Mahasiswa extends Model
     use HasFactory;
 
     protected $guarded = ["id"];
-    protected $fillable = ["name", "nim", "angkatan", "tanggal_lahir", "rombel"];
+    protected $fillable = ["name", "nim", "angkatan", "fakultas_id", "tanggal_lahir", "rombel"];
+
+    public function fakultas()
+    {
+        return $this->belongsTo(fakultas::class);
+    }
 }

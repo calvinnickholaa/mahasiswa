@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('nim');
             $table->string('angkatan');
-            $table->string('tanggal_lahir');
+            $table->date('tanggal_lahir');
             $table->string('rombel');
             $table->timestamps();
         });
